@@ -1,0 +1,43 @@
+# Render "Blueprint": one web service that serves both the API and the website.
+# The website is already built into frontend/dist (commit that folder to GitHub).
+services:
+  - type: web
+    name: electronics-lab
+    runtime: python
+    plan: free
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT --proxy-headers --forwarded-allow-ips="*"
+    healthCheckPath: /api/health
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.3
+      - key: APP_ENV
+        value: production
+      - key: DB_SSL
+        value: "true"
+      - key: EMAIL_PROVIDER
+        value: gmail_api
+      - key: TIMEZONE
+        value: Asia/Kolkata
+      # Fill these in on the Render dashboard (sync: false = not stored in the file):
+      - key: DATABASE_URL
+        sync: false
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DEVICE_KEY
+        generateValue: true
+      - key: ADMIN_PASSWORD
+        sync: false
+      - key: PUBLIC_URL
+        sync: false
+      - key: CRON_TOKEN
+        generateValue: true
+      - key: GMAIL_CLIENT_ID
+        sync: false
+      - key: GMAIL_CLIENT_SECRET
+        sync: false
+      - key: GMAIL_REFRESH_TOKEN
+        sync: false
+      - key: GMAIL_SENDER
+        sync: false

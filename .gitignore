@@ -1,0 +1,7 @@
+# keep frontend/dist: the live server serves the built website from it
+node_modules/
+__pycache__/
+*.pyc
+venv/
+.env
+*.db
